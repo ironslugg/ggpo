@@ -14,7 +14,14 @@ There are many other things in your game engine that are neither game state nor 
 
 ## Using State and Inputs for Synchronization
 
-Each player in a GGPO networked game has a complete copy of your game running.  GGPO needs to keep both copies of the game state in sync to ensure that both players are experiencing the same game.  It would be much too expensive to send an entire copy of the game state between players every frame.  Instead GGPO sends the players’ inputs to each other and has each player step the game forward.  In order for this to work, your game engine must meet three criteria:
+Each player in a GGPO networked game has a complete copy of your game running.  GGPO needs to keep both copies of the game state in sync to ensure that both players are experiencing the s
+
+
+
+
+
+
+ame game.  It would be much too expensive to send an entire copy of the game state between players every frame.  Instead GGPO sends the players’ inputs to each other and has each player step the game forward.  In order for this to work, your game engine must meet three criteria:
 
 - The game simulation must be fully deterministic.  That is, for any given game state and inputs, advancing the game state by exactly 1 frame must result in identical game states for all players.
 - The game state must be fully encapsulated and serializable.  
@@ -83,7 +90,7 @@ result = ggpo_add_player(ggpo, &p2,  &player_handles[1]);
 ```
 
 ### Synchronizing Local and Remote Inputs
-Input synchronization happens at the top of each game frame.  This is done by calling `ggpo_add_local_input` for each local player and `ggpo_synchronize_input` to fetch the inputs for remote players.
+Input synchronization happens at the top of each game frame.  This is done by calling `ggpo_add_local_input` for each local player and `ggpo_synchronize_inputs` to fetch the inputs for remote players.
 Be sure to check the return value of `ggpo_synchronize_inputs`.  If it returns a value other than `GGPO_OK`, you should not advance your game state.  This usually happens because GGPO has not received packets from the remote player in a while and has reached its internal prediction limit.
 
 For example, if your code looks like this currently for a local game:
